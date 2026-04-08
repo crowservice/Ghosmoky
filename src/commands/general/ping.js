@@ -1,5 +1,7 @@
 export default {
   name: "ping",
+  category: "general",
+  description: "Mide el tiempo de respuesta del bot",
 
   async run(sock, msg) {
     const start = Date.now();
