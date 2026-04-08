@@ -1,1 +1,13 @@
+# Carpetas
+/node_modules
+/.temp
+/.local
+/auth
+
+# Archivos
+package-lock.json
+*.test.js
+*.zip
+*.tar
+*.7z
 .env

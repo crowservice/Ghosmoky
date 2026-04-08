@@ -3,8 +3,6 @@ import { config } from "./config/config.js";
 import { readdir } from "fs/promises";
 import { pino } from "pino";
 
-process.loadEnvFile();
-
 export async function connect() {
   const { state, saveCreds } = await useMultiFileAuthState("auth/main");
 

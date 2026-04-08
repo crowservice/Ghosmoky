@@ -1,5 +1,7 @@
 import { BotCache } from "../utils/_exports.js";
 
+process.loadEnvFile();
+
 const DEVS = process.env.DEVS?.split("|").map((number) => `${number}@s.whatsapp.net`) || [];
 
 export const config = {
