@@ -5,7 +5,8 @@ export default {
     description: "Lista de comandos disponibles",
 
     async run(sock, msg, config) {
-        const commands = config.cache.commands;
+        const ghosmoky = config.cache.commands;
+        const commands = ghosmoky.filter(cmd => !cmd.hidden && !cmd.dev);
         const jid = msg.key.remoteJid;
 
         let menu = `Hola ${msg.pushName}!\nTengo ${commands.keys().length} comandos disponibles:\n\n`;
