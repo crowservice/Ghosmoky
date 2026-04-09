@@ -1,52 +1,27 @@
-import { generateWAMessageFromContent } from "baileys";
-
 export default {
     name: "menu",
-    aliases: ["comandos"],
+    alias: ["comandos"],
     category: "general",
     description: "Lista de comandos disponibles",
 
-    async run(sock, msg) {
-        let menu = `*Tengo ${sock.commands.size} comandos disponibles:\n`;
-        
-        menu += `\n*GENERAL*\n` +
-            commandsData(sock.commands.filter(c => c.category === "general"), prefix);
+    async run(sock, msg, config) {
+        const commands = config.cache.commands;
+        const jid = msg.key.remoteJid;
 
-        const adMessage = await generateWAMessageFromContent(
-            msg.from,
-            {
-                extendedTextMessage: {
-                    text: menu,
-                    contextInfo: {
-                        isForwarded: true,
-                        forwardedNewsletterMessageInfo: {
-                            newsletterJid: "120363406931048017@newsletter",
-                            newsletterName: "Ghosmoky",
-                            serverMessageId: -1
-                        },
-                        mentionedJid: [msg.sender],
-                        externalAdReply: {
-                            title: "Ghosmoky",
-                            body: "E belda",
-                            sourceUrl: "https://whatsapp.com/channel/0029Vb8DSE84inoqS5gygU0v",
-                            thumbnailUrl: "https://files.catbox.moe/d3dadc.jpg",
-                            mediaType: 1,
-                            renderLargerThumbnail: true,
-                            buttonText: "Unirme al canal",
-                            showAdAttribution: true
-                        }
-                    }
-                }
-            },
-            { quoted: msg }
-        );
+        let menu = `Hola ${msg.pushName}!\nTengo ${commands.keys().length} comandos disponibles:\n\n`;
 
-        await sock.relayMessage(msg.from, adMessage.message, {});
+        menu += commandsData("GENERAL", "general");
+        menu += commandsData("DESCARGADORES", "downloaders");
+
+        await sock.sendMessage(jid, { text: menu.trim() }, { quoted: msg.raw });
+
+        function commandsData(label, category) {
+            const filtered = [...commands.keys()]
+                .map(k => commands.get(k))
+                .filter(c => c.category === category)
+                .map(c => `/${c.name}${c.usage ? " " + c.usage : ""}`);
+
+            return `*${label}*\n${filtered.join("\n")}\n\n`;
+        }
     }
 };
-
-function commandsData(commands, prefix) {
-    return commands
-        .map(i => `/${i.name} b${i.usage ?? ""}`.trim())
-        .join("\n");
-}
