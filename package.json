@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "baileys": "^7.0.0-rc.9",
-    "node-cache": "^5.1.2"
+    "node-cache": "^5.1.2",
+    "axios": "1.5.1"
   }
 }
