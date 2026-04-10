@@ -29,6 +29,7 @@ export default {
     });
 
     const jid = data.key?.participantAlt || data.key?.remoteJidAlt;
+    const isDev = config.devs.has(jid);
     if (command.onlyDm && m.isGroup)
     return m.reply("Este comando no se puede usar en grupos.");
 
