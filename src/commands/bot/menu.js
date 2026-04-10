@@ -13,6 +13,7 @@ export default {
 
         menu += commandsData("GENERAL", "general");
         menu += commandsData("DESCARGADORES", "downloaders");
+        menu += commandsData("DIVERSIÓN", "Diversión");
 
         await sock.sendMessage(jid, { text: menu.trim() }, { quoted: msg.raw });
 
