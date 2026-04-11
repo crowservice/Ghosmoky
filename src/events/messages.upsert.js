@@ -30,19 +30,17 @@ export default {
 
     const jid = data.key?.participantAlt || data.key?.remoteJidAlt;
     const isDev = config.devs.has(jid);
-    if (command.onlyDm && m.isGroup)
-    return m.reply("Este comando no se puede usar en grupos.");
 
-if (command.grupo && !m.isGroup)
-    return m.reply("Este comando solo se puede usar en grupos.");
+    if (command.grupo && !m.isGroup)
+      return m.reply("Este comando solo se puede usar en grupos.");
 
-if (command.onlyAdmin && !isGroupAdmin)
-    return m.reply("Este comando solo lo pueden usar administradores.");
+    if (command.onlyAdmin && !isGroupAdmin)
+      return m.reply("Este comando solo lo pueden usar administradores.");
 
-if (command.botAdmin && !isBotAdmin)
-    return m.reply("Para ejecutar este comando el bot necesita ser admin.");
+    if (command.botAdmin && !isBotAdmin)
+      return m.reply("Para ejecutar este comando el bot necesita ser admin.");
 
-    if (!command || (command.dev && !isDev)) return;
+    if (!command || (command.dev && !isDev)) return; 
 
     const msg = new MessageWrapper(sock.sendMessage, data);
 
