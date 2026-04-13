@@ -24,16 +24,19 @@ export default {
         await msg.react("❓");
         return msg.reply("Responde a un mensaje de audio.");
       }
-
-      const stream = await downloadContentFromMessage(mediaMsg[type], "audio");
-      const chunks = [];
-      for await (const chunk of stream) chunks.push(chunk);
-      const buffer = Buffer.concat(chunks);
-
-      if (buffer.length > 40 * 1024 * 1024) {
+      
+      const fullMsg = mediaMsg[type];
+      const fileLength = fullMsg.fileLength?.toNumber?.() || 0;
+      
+      if (fileLength > 40 * 1024 * 1024) {
         await msg.react("❌");
         return msg.reply("El audio es muy grande.\n\nLimite: `40MB`");
       }
+
+      const stream = await downloadContentFromMessage(fullMsg, "audio");
+      const chunks = [];
+      for await (const chunk of stream) chunks.push(chunk);
+      const buffer = Buffer.concat(chunks);      
 
       const tempFile = path.join(os.tmpdir(), `shazam_${Date.now()}.mp3`);
       fs.writeFileSync(tempFile, buffer);
